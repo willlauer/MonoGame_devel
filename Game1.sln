@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game1", "Game1.csproj", "{BB152B80-EDC0-4935-8D3E-CEDE68D82B93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairyGame", "FairyGame.csproj", "{BB152B80-EDC0-4935-8D3E-CEDE68D82B93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairyLevelEditor", "FairyLevelEditor\FairyLevelEditor.csproj", "{9FB7D793-C54F-4ADA-9C5E-C9D592729F5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{BB152B80-EDC0-4935-8D3E-CEDE68D82B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB152B80-EDC0-4935-8D3E-CEDE68D82B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB152B80-EDC0-4935-8D3E-CEDE68D82B93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FB7D793-C54F-4ADA-9C5E-C9D592729F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FB7D793-C54F-4ADA-9C5E-C9D592729F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FB7D793-C54F-4ADA-9C5E-C9D592729F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FB7D793-C54F-4ADA-9C5E-C9D592729F5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

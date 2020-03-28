@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using TextureAtlas;
 
-namespace Game1
+namespace FairyGame
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class FairyGame : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -36,7 +36,7 @@ namespace Game1
 
         float angle = 0;
 
-        public Game1()
+        public FairyGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

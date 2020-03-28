@@ -1,0 +1,36 @@
+﻿<Window x:Class="FairyLevelEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FairyLevelEditor"
+        xmlns:fa5="http://schemas.fontawesome.com/icons/"
+        mc:Ignorable="d"
+        Title="FairyEditor" Height="900" Width="1200">
+    <Grid>
+        <Menu>
+            <MenuItem Header="_File">
+                <MenuItem.Icon>
+                    <fa5:FontAwesome Icon="Regular_File"/>
+                </MenuItem.Icon>
+                <MenuItem Header="New level" Click="MenuItem_NewLevel_Click">
+                    <MenuItem.Icon>
+                        <fa5:FontAwesome Icon="Solid_Plus"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <Separator/>
+            <MenuItem Header="_Tools">
+                <MenuItem.Icon>
+                    <fa5:FontAwesome Icon="Solid_Toolbox"/>
+                </MenuItem.Icon>
+                <MenuItem Header="Show toolbox" Click="MenuItem_Toolbox_Click">
+                    <MenuItem.Icon>
+                        <fa5:FontAwesome Icon="Solid_Plus"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        
+    </Grid>
+</Window>
