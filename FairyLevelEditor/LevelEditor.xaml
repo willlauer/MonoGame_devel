@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FairyLevelEditor"
         mc:Ignorable="d"
-        Title="Level Editor" Height="450" Width="800"
+        Title="Level Editor" Height="600" Width="1000"
         AllowDrop="True">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -19,8 +19,27 @@
         </Expander>
         <Canvas Grid.Column="1" AllowDrop="True" Name="LvCanvas" 
                 DragDrop.DragEnter="LvCanvas_DragEnter" DragDrop.Drop="LvCanvas_Drop"
-                Background="AliceBlue">
-            
+                MouseDown="LvCanvas_MouseDown" 
+                MouseMove="LvCanvas_MouseMove" 
+                MouseUp="LvCanvas_MouseUp" 
+                MouseLeave="LvCanvas_MouseLeave"
+                >
+            <Canvas.Background>
+                <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" 
+                                     ViewportUnits="Absolute">
+                    <DrawingBrush.Drawing>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0,0,60,60"/>
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Gray" Thickness="1"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Canvas.Background>
+
         </Canvas>
     </Grid>
 </Window>

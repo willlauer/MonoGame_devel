@@ -20,6 +20,8 @@ namespace FairyLevelEditor
     /// </summary>
     public partial class LevelEditor : Window
     {
+        public const int NumCells = 100;
+
         private LevelEditorViewModel viewModel;
         public LevelEditor(LevelEditorViewModel vm)
         {
@@ -28,18 +30,23 @@ namespace FairyLevelEditor
             InitializeComponent();
         }
 
+        private Point last;  // For monitoring of position changes during drag
+
+        #region drag
         private void LvCanvas_DragEnter(object sender, DragEventArgs e)
         {
+            last = e.GetPosition(LvCanvas);
+            Console.WriteLine("Drag enter");
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
+                Console.WriteLine("if");
                 e.Effects = DragDropEffects.All;
             }
         }
 
         private void LvCanvas_Drop(object sender, DragEventArgs e)
         {
-            var position = e.GetPosition(LvCanvas);
-
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             foreach (string file in files)
             {
@@ -47,10 +54,10 @@ namespace FairyLevelEditor
                 viewModel.LoadComponent(file, e.GetPosition(LvCanvas).X, e.GetPosition(LvCanvas).Y);
             }
         }
+        #endregion 
 
         private void OnInvalidateDisplay(object sender, EventArgs e)
         {
-            Console.WriteLine("Invalidate display");
             LvCanvas.Children.Clear();
             foreach (var layer in viewModel.Components.Keys)
             {
@@ -63,11 +70,71 @@ namespace FairyLevelEditor
             }
         }
 
+
+        #region mouse events
+        private void LvCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var selected = viewModel.GetComponentAtPosition(e.GetPosition(LvCanvas));
+            if (selected != null)
+            {
+                Console.WriteLine("mouse down");
+                viewModel.SelectedComponent = selected;
+                viewModel.ComponentDrag = true;
+
+
+                // Windows default is to not capture input if the  mouse is released
+                // after dragging (to avoid inadvertant clicks etc)
+                // So we force the sender object to capture this mouse input
+                var element = (UIElement)sender;
+                element.CaptureMouse();
+            }
+        }
+
+        private void LvCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            var position = e.GetPosition(LvCanvas);
+            if (viewModel.ComponentDrag)
+            {
+                Console.WriteLine("Drag");
+                viewModel.SelectedComponent.X += position.X - last.X;
+                viewModel.SelectedComponent.Y += position.Y - last.Y;
+            }
+            last = position;
+        }
+
+        private void LvCanvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("mouse up");
+            viewModel.ComponentDrag = false;
+
+            var element = (UIElement)sender;
+            element.ReleaseMouseCapture();
+        }
+
+        private void LvCanvas_MouseLeave(object sender, MouseEventArgs e)
+        {
+            viewModel.ComponentDrag = false;
+
+            var element = (UIElement)sender;
+            element.ReleaseMouseCapture();
+        }
+        #endregion
     }
 
     public class LevelEditorViewModel : ViewModelBase
     {
         public EventHandler InvalidateDisplay;
+        
+        private bool componentDrag;
+        public bool ComponentDrag
+        {
+            get => componentDrag;
+            set
+            {
+                componentDrag = value;
+                NotifyAllPropertyChanged();
+            }
+        }
 
         private FairyVisualComponent selectedComponent;
         public FairyVisualComponent SelectedComponent
@@ -95,6 +162,31 @@ namespace FairyLevelEditor
             SelectedComponent = visualComponent;
             InvalidateDisplay?.Invoke(this, null);
         }
+
+
+        public FairyVisualComponent GetComponentAtPosition(Point position)
+        {
+            var keys = Components.Keys.ToList();
+            keys.Sort();
+
+            Console.WriteLine("Position = {0}, {1}", position.X, position.Y);
+            foreach (int layer in keys)
+            {
+                foreach (var visualComponent in Components[layer])
+                {
+                    var width = visualComponent.Img.Width * visualComponent.Scale;
+                    var height = visualComponent.Img.Height * visualComponent.Scale;
+                    Console.WriteLine("Component: {0} {1} {2} {3}", visualComponent.X, visualComponent.Y, width, height);
+
+                    if (position.X >= visualComponent.X && position.X < visualComponent.X + width
+                        && position.Y >= visualComponent.Y && position.Y < visualComponent.Y + height)
+                    {
+                        return visualComponent;
+                    }
+                }
+            }
+            return null;
+        }
     }
 
     public class FairyVisualComponent : ViewModelBase
@@ -103,26 +195,13 @@ namespace FairyLevelEditor
 
         public Image Img;
 
-        private double width;
-        public double Width
+        private double scale;
+        public double Scale
         {
-            get => width;
+            get => scale;
             set
             {
-                width = value;
-                NotifyAllPropertyChanged();
-                ReloadImage();
-                InvalidateDisplay?.Invoke(this, null);
-            }
-        }
-
-        private double height;
-        public double Height
-        {
-            get => height;
-            set
-            {
-                height = value;
+                scale = value;
                 NotifyAllPropertyChanged();
                 ReloadImage();
                 InvalidateDisplay?.Invoke(this, null);
@@ -184,8 +263,8 @@ namespace FairyLevelEditor
         {
             Img = new Image
             {
-                Width = width,
-                Height = height,
+                Width = bitmapImage.Width * scale,
+                Height = bitmapImage.Height * scale,
                 Source = bitmapImage
             };
         }
@@ -197,8 +276,7 @@ namespace FairyLevelEditor
             component = FairyComponent.Load(file);
             InvalidateDisplay = invalidateDisplay;
             bitmapImage = new BitmapImage(new Uri(component.Sprite));
-            Width = bitmapImage.Width;
-            Height = bitmapImage.Height;
+            Scale = 1;
             Img = new Image
             {
                 Width = bitmapImage.Width,

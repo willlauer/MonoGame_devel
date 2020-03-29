@@ -31,11 +31,8 @@
         <TextBlock Text="Y" Grid.Row="3"/>
         <TextBox Text="{Binding Y}" Grid.Row="3" Grid.Column="1"/>
 
-        <TextBlock Text="Width" Grid.Row="4"/>
-        <TextBox Text="{Binding Width}" Grid.Row="4" Grid.Column="1"/>
-
-        <TextBlock Text="Height" Grid.Row="5"/>
-        <TextBox Text="{Binding Height}" Grid.Row="5" Grid.Column="1"/>
+        <TextBlock Text="Scale" Grid.Row="4"/>
+        <TextBox Text="{Binding Scale}" Grid.Row="4" Grid.Column="1"/>
 
         <TextBlock Text="Layer" Grid.Row="6"/>
         <TextBox Text="{Binding Layer}" Grid.Row="6" Grid.Column="1"/>
