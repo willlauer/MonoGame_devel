@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="InverseBooleanConverter.cs" />
     <Compile Include="WpfUtils.cs" />
     <Compile Include="ComponentCreator.xaml.cs">
       <DependentUpon>ComponentCreator.xaml</DependentUpon>

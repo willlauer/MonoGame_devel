@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:FairyLevelEditor"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <local:InverseBooleanConverter x:Key="inverseBooleanConverter"/>
     </Application.Resources>
 </Application>

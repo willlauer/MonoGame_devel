@@ -22,8 +22,52 @@
             </MenuItem>
         </Menu>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Sprite}"/>
+            <StackPanel Orientation="Vertical">
+                <Grid Visibility="{Binding LoadingVisibility}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Sprite filepath" Margin="5, 5, 5, 5"/>
+                    <TextBox Text="{Binding Sprite}" Grid.Column="1" Margin="5, 5, 5, 5"/>
 
+                    <Button Click="LoadSprite_Click" Grid.Row="1" Margin="5, 5, 5, 5" Content="Load"/>
+                    <Button Click="CancelLoad_Click" Grid.Row="2" Content="Cancel" Margin="5, 5, 5, 5"/>
+                </Grid>
+
+                <!-- Component properties -->
+                <TextBlock Text="Component properties"
+                           Margin="5, 5, 5, 5" Visibility="{Binding SpriteLoadedVisibility}" HorizontalAlignment="Center" 
+                           FontWeight="ExtraBold"/>
+                <Grid Visibility="{Binding SpriteLoadedVisibility}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Component name" Margin="5, 5, 5, 5"/>
+                    <TextBox Text="{Binding ComponentName}" Grid.Column="1" Margin="5, 5, 5, 5"/>
+                    <TextBlock Text="Is texture atlas" Margin="5, 5, 5, 5" Grid.Row="1"/>
+                    <CheckBox IsChecked="{Binding IsTextureAtlas}" Grid.Row="1" Grid.Column="1" Margin="5, 5, 5, 5"/>
+                    <TextBlock Text="Texture atlas rows" Grid.Row="2"/>
+                    <TextBox Text="{Binding TextureAtlasNumRowsEnt}" IsReadOnly="{Binding IsTextureAtlas, Converter={StaticResource inverseBooleanConverter}}"
+                             Grid.Row="2" Grid.Column="1"/>
+                    <TextBlock Text="Texture atlas columns" Grid.Row="3"/>
+                    <TextBox Text="{Binding TextureAtlasNumColumnsEnt}" IsReadOnly="{Binding IsTextureAtlas, Converter={StaticResource inverseBooleanConverter}}"
+                             Grid.Row="3" Grid.Column="1"/>
+                </Grid>
+            </StackPanel>
+            <Image Source="{Binding SpriteImage}"/>
         </StackPanel>
     </DockPanel>
 </Window>
