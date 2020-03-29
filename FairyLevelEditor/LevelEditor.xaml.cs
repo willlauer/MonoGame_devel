@@ -20,15 +20,24 @@ namespace FairyLevelEditor
     /// </summary>
     public partial class LevelEditor : Window
     {
-        public const int NumCells = 100;
+        public const int NumCells = 60;
 
         private LevelEditorViewModel viewModel;
         public LevelEditor(LevelEditorViewModel vm)
         {
             DataContext = viewModel = vm;
             viewModel.InvalidateDisplay += OnInvalidateDisplay;
+
             InitializeComponent();
+            InitializeTileViewport();
         }
+
+
+        private void InitializeTileViewport()
+        {
+            viewModel.TileViewport = new Rect(0, 0, LvCanvas.Width / NumCells, LvCanvas.Height / NumCells);
+        }
+
 
         private Point last;  // For monitoring of position changes during drag
 
@@ -68,6 +77,7 @@ namespace FairyLevelEditor
                     Canvas.SetLeft(component.Img, component.X);
                 }
             }
+            
         }
 
 
@@ -119,10 +129,27 @@ namespace FairyLevelEditor
             element.ReleaseMouseCapture();
         }
         #endregion
+
+        private void LvCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var newViewport = new Rect(0, 0, e.NewSize.Width / NumCells, e.NewSize.Height / NumCells);
+            viewModel.TileViewport = newViewport;
+        }
     }
 
     public class LevelEditorViewModel : ViewModelBase
     {
+        private Rect tileViewport;
+        public Rect TileViewport
+        {
+            get => tileViewport;
+            set
+            {
+                tileViewport = value;
+                NotifyAllPropertyChanged();
+            }
+        }
+
         public EventHandler InvalidateDisplay;
         
         private bool componentDrag;

@@ -92,7 +92,7 @@ namespace FairyGameFramework
         public static FairyComponent LoadPartial(string filename)
         {
             string path = Path.Combine(ComponentRepository, filename);
-            FileStream stream = new FileStream(path, FileMode.Open);
+            FileStream stream = new FileStream(path, FileMode.Open); 
             using (var reader = new StreamReader(stream))
             {
                 string sprite = reader.ReadLine()

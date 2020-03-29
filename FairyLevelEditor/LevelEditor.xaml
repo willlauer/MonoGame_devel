@@ -23,9 +23,10 @@
                 MouseMove="LvCanvas_MouseMove" 
                 MouseUp="LvCanvas_MouseUp" 
                 MouseLeave="LvCanvas_MouseLeave"
+                SizeChanged="LvCanvas_SizeChanged"
                 >
             <Canvas.Background>
-                <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" 
+                <DrawingBrush TileMode="Tile" Viewport="{Binding TileViewport}"
                                      ViewportUnits="Absolute">
                     <DrawingBrush.Drawing>
                         <GeometryDrawing>
