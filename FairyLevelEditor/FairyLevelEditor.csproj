@@ -62,6 +62,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="EnumBooleanConverter.cs" />
+    <Compile Include="FairyComponentDisplay.xaml.cs">
+      <DependentUpon>FairyComponentDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InverseBooleanConverter.cs" />
     <Compile Include="LevelEditor.xaml.cs">
       <DependentUpon>LevelEditor.xaml</DependentUpon>
@@ -74,6 +77,10 @@
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
     <Page Include="ComponentCreator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FairyComponentDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

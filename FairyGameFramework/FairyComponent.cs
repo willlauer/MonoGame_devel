@@ -14,7 +14,7 @@ namespace FairyGameFramework
     /// </summary>
     public class FairyComponent
     {
-        public string ComponentRepository = Path.Combine(
+        public static string ComponentRepository = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             "fairy_components");
 
@@ -82,7 +82,14 @@ namespace FairyGameFramework
             }
         }
 
-        public FairyComponent Load(string filename)
+        /// <summary>
+        /// Create a fairy component from partial filepath.
+        /// Component name is given, rest of filepath is assumed
+        /// to be component repository directory
+        /// </summary>
+        /// <param name="filename">The component name</param>
+        /// <returns>Fairy component</returns>
+        public static FairyComponent LoadPartial(string filename)
         {
             string path = Path.Combine(ComponentRepository, filename);
             FileStream stream = new FileStream(path, FileMode.Open);
@@ -103,6 +110,52 @@ namespace FairyGameFramework
                 bool isTextureAtlas = bool.Parse(
                     reader.ReadLine().Replace(Environment.NewLine, String.Empty));
                
+                if (componentType == ComponentTypes.Actor)
+                {
+                    if (isTextureAtlas)
+                        return new FairyActor(sprite, name, numRows, numColumns, numFrames);
+                    else
+                        return new FairyActor(sprite, name);
+                }
+                else if (componentType == ComponentTypes.Object)
+                {
+                    if (isTextureAtlas)
+                        return new FairyObject(sprite, name, numRows, numColumns, numFrames);
+                    else
+                        return new FairyObject(sprite, name);
+                }
+                else
+                {
+                    throw new NotSupportedException("Unsupported component type");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Load Fairy Component from file
+        /// </summary>
+        /// <param name="path">Full filepath to the component</param>
+        /// <returns>Fairy component</returns>
+        public static FairyComponent Load(string path)
+        {
+            FileStream stream = new FileStream(path, FileMode.Open);
+            using (var reader = new StreamReader(stream))
+            {
+                string sprite = reader.ReadLine()
+                    .Replace(Environment.NewLine, String.Empty);
+                string name = reader.ReadLine()
+                    .Replace(Environment.NewLine, String.Empty);
+                ComponentTypes componentType = (ComponentTypes)Enum.Parse(typeof(ComponentTypes),
+                    reader.ReadLine().Replace(Environment.NewLine, String.Empty));
+                int numRows = int.Parse(reader.ReadLine().Replace(
+                    Environment.NewLine, String.Empty));
+                int numColumns = int.Parse(reader.ReadLine().Replace(
+                    Environment.NewLine, String.Empty));
+                int numFrames = int.Parse(reader.ReadLine().Replace(
+                    Environment.NewLine, String.Empty));
+                bool isTextureAtlas = bool.Parse(
+                    reader.ReadLine().Replace(Environment.NewLine, String.Empty));
+
                 if (componentType == ComponentTypes.Actor)
                 {
                     if (isTextureAtlas)
