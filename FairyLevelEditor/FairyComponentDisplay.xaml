@@ -26,10 +26,10 @@
         <TextBox Text="{Binding Name}" Grid.Row="1" Grid.Column="1"/>
 
         <TextBlock Text="X" Grid.Row="2"/>
-        <TextBox Text="{Binding X}" Grid.Row="2" Grid.Column="1"/>
+        <TextBox Text="{Binding CellX}" Grid.Row="2" Grid.Column="1"/>
 
         <TextBlock Text="Y" Grid.Row="3"/>
-        <TextBox Text="{Binding Y}" Grid.Row="3" Grid.Column="1"/>
+        <TextBox Text="{Binding CellY}" Grid.Row="3" Grid.Column="1"/>
 
         <TextBlock Text="Scale" Grid.Row="4"/>
         <TextBox Text="{Binding Scale}" Grid.Row="4" Grid.Column="1"/>
