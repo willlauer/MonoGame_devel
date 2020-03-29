@@ -36,10 +36,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FontAwesome5, Version=2.0.4.0, Culture=neutral, PublicKeyToken=9cfaf01297a008f8, processorArchitecture=MSIL">
-      <HintPath>..\Game1\packages\FontAwesome5.2.0.4\lib\net40\FontAwesome5.dll</HintPath>
+      <HintPath>..\packages\FontAwesome5.2.0.4\lib\net40\FontAwesome5.dll</HintPath>
     </Reference>
     <Reference Include="FontAwesome5.Net40, Version=2.0.4.0, Culture=neutral, PublicKeyToken=9cfaf01297a008f8, processorArchitecture=MSIL">
-      <HintPath>..\Game1\packages\FontAwesome5.2.0.4\lib\net40\FontAwesome5.Net40.dll</HintPath>
+      <HintPath>..\packages\FontAwesome5.2.0.4\lib\net40\FontAwesome5.Net40.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -63,6 +63,9 @@
     </ApplicationDefinition>
     <Compile Include="EnumBooleanConverter.cs" />
     <Compile Include="InverseBooleanConverter.cs" />
+    <Compile Include="LevelEditor.xaml.cs">
+      <DependentUpon>LevelEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfUtils.cs" />
     <Compile Include="ComponentCreator.xaml.cs">
       <DependentUpon>ComponentCreator.xaml</DependentUpon>
@@ -90,6 +93,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LevelEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -109,6 +116,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -123,6 +135,14 @@
       <Project>{45e2a9f3-5b7b-4345-8b51-b6a165c49589}</Project>
       <Name>FairyGameFramework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

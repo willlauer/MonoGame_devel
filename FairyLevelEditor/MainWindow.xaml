@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FairyLevelEditor"
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
-        Title="FairyEditor" Height="900" Width="1200">
+        Title="FairyEditor" Height="300" Width="350">
     <Grid>
         <Menu>
             <MenuItem Header="_File">
@@ -31,6 +31,6 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        
+        <Image Source="logo.png" Width="300"/>
     </Grid>
 </Window>

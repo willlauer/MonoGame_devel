@@ -27,7 +27,9 @@ namespace FairyLevelEditor
 
         private void MenuItem_NewLevel_Click(object sender, RoutedEventArgs e)
         {
-
+            var lvViewModel = new LevelEditorViewModel();
+            var wnd = new LevelEditor(lvViewModel);
+            wnd.Show();
         }
 
         private void MenuItem_Toolbox_Click(object sender, RoutedEventArgs e)
