@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EnumBooleanConverter.cs" />
     <Compile Include="InverseBooleanConverter.cs" />
     <Compile Include="WpfUtils.cs" />
     <Compile Include="ComponentCreator.xaml.cs">
@@ -116,6 +117,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FairyGameFramework\FairyGameFramework.csproj">
+      <Project>{45e2a9f3-5b7b-4345-8b51-b6a165c49589}</Project>
+      <Name>FairyGameFramework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+using FairyGameFramework;
+
 namespace FairyLevelEditor
 {
     /// <summary>
@@ -44,6 +46,55 @@ namespace FairyLevelEditor
             viewModel.SpriteLoaded = false;
             viewModel.SpriteImage = null;
         }
+
+        private void SaveComponent_Click(object sender, RoutedEventArgs e)
+        {
+            if (viewModel.ComponentType == ComponentTypes.Actor)
+            {
+                FairyActor actor;
+                if (viewModel.IsTextureAtlas)
+                {
+                    actor = new FairyActor(
+                        viewModel.Sprite,
+                        viewModel.ComponentName,
+                        viewModel.TextureAtlasNumRows,
+                        viewModel.TextureAtlasNumCols,
+                        viewModel.TextureAtlasNumFrames);
+                }
+                else
+                {
+                    actor = new FairyActor(
+                        viewModel.Sprite,
+                        viewModel.ComponentName);
+                }
+                actor.Save(string.Format("actor_{0}", viewModel.ComponentName));
+            }
+            else if (viewModel.ComponentType == ComponentTypes.Object)
+            {
+                FairyObject obj;
+                if (viewModel.IsTextureAtlas)
+                {
+                    obj = new FairyObject(
+                        viewModel.Sprite,
+                        viewModel.ComponentName,
+                        viewModel.TextureAtlasNumRows,
+                        viewModel.TextureAtlasNumCols,
+                        viewModel.TextureAtlasNumFrames);
+                }
+                else
+                {
+                    obj = new FairyObject(
+                        viewModel.Sprite,
+                        viewModel.ComponentName);
+                }
+                obj.Save(string.Format("object_{0}", viewModel.ComponentName));
+            }
+            else
+            {
+                throw new NotSupportedException("Not supported component type");
+            }
+        }
+
     }
 
     public class ComponentCreatorViewModel : ViewModelBase
@@ -104,6 +155,7 @@ namespace FairyLevelEditor
                 NotifyAllPropertyChanged();
             }
         }
+        public Visibility TextureAtlasVisibility => IsTextureAtlas ? Visibility.Visible : Visibility.Collapsed;
 
         private bool spriteLoaded;
         public bool SpriteLoaded
@@ -136,7 +188,20 @@ namespace FairyLevelEditor
                 NotifyAllPropertyChanged();
             }
         }
-
+        private string textureAtlasNumFramesEnt;
+        public string TextureAtlasNumFramesEnt
+        {
+            get => textureAtlasNumFramesEnt;
+            set
+            {
+                textureAtlasNumFramesEnt = value;
+                NotifyAllPropertyChanged();
+            }
+        }
+        public int TextureAtlasNumFrames
+        {
+            get => int.Parse(TextureAtlasNumFramesEnt);
+        }
         public int TextureAtlasNumRows
         {
             get => int.Parse(TextureAtlasNumRowsEnt);
@@ -144,6 +209,17 @@ namespace FairyLevelEditor
         public int TextureAtlasNumCols
         {
             get => int.Parse(TextureAtlasNumColumnsEnt);
+        }
+
+        private ComponentTypes componentType;
+        public ComponentTypes ComponentType
+        {
+            get => componentType;
+            set
+            {
+                componentType = value;
+                NotifyAllPropertyChanged();
+            }
         }
     }
 }
