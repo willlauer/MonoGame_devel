@@ -136,7 +136,9 @@ namespace FairyLevelEditor
         private void LvCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var newViewport = new Rect(0, 0, e.NewSize.Width / NumCells, e.NewSize.Height / NumCells);
+            var oldViewport = viewModel.TileViewport;
             viewModel.TileViewport = newViewport;
+            viewModel.ReloadComponentsForScreenResize(oldViewport);
         }
     }
 
@@ -220,6 +222,22 @@ namespace FairyLevelEditor
             }
             return null;
         }
+
+        public void ReloadComponentsForScreenResize(Rect oldViewport)
+        {
+            var keys = Components.Keys.ToList();
+            keys.Sort();
+            foreach (int layer in keys)
+            {
+                foreach (var visualComponent in Components[layer])
+                {
+                    var oldNumCellsX = (int)(visualComponent.Img.Width / oldViewport.Width);
+                    var oldNumCellsY = (int)(visualComponent.Img.Height / oldViewport.Height);
+                    visualComponent.ReloadImageScreenChange(oldNumCellsX, oldNumCellsY);
+                }
+            }
+            InvalidateDisplay?.Invoke(this, null);
+        }
     }
 
     public class FairyVisualComponent : ViewModelBase
@@ -236,7 +254,7 @@ namespace FairyLevelEditor
             {
                 scale = value;
                 NotifyAllPropertyChanged();
-                ReloadImage();
+                ReloadImageScale();
                 InvalidateDisplay?.Invoke(this, null);
             }
         }
@@ -249,7 +267,6 @@ namespace FairyLevelEditor
             {
                 layer = value;
                 NotifyAllPropertyChanged();
-                ReloadImage();
                 InvalidateDisplay?.Invoke(this, null);
             }
         }
@@ -295,8 +312,11 @@ namespace FairyLevelEditor
         public int NumCellsX => (int)(Img.Width / levelEditor.CellWidth) + 1; 
         public int NumCellsY => (int)(Img.Height / levelEditor.CellHeight) + 1;
 
-        private void ReloadImage() 
+       
+
+        private void ReloadImageScale() 
         {
+            // If image scale changes
             var width = ((int)((origWidth * Scale) / levelEditor.CellWidth) + 1) * levelEditor.CellWidth;
             var height = ((int)((origHeight * Scale) / levelEditor.CellHeight) + 1) * levelEditor.CellHeight;
 
@@ -308,6 +328,20 @@ namespace FairyLevelEditor
                 Stretch = Stretch.Fill
             };
         }
+
+        public void ReloadImageScreenChange(int ncx, int ncy)
+        {
+            var width = ncx * levelEditor.CellWidth;
+            var height = ncy * levelEditor.CellHeight;
+            Img = new Image
+            {
+                Width = width,
+                Height = height,
+                Source = bitmapImage,
+                Stretch = Stretch.Fill
+            };
+        }
+
         private double origWidth;
         private double origHeight;
 
