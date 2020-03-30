@@ -64,9 +64,23 @@ namespace FairyLevelEditor
         private void OnInvalidateDisplay(object sender, EventArgs e)
         {
             LvCanvas.Children.Clear();
-            foreach (var layer in viewModel.Components.Keys)
+
+            var layeredComponents = new Dictionary<int, List<FairyVisualComponent>>();
+            foreach (var component in viewModel.Components)
             {
-                foreach (var component in viewModel.Components[layer])
+                if (!layeredComponents.ContainsKey(component.Layer))
+                    layeredComponents.Add(component.Layer, new List<FairyVisualComponent>());
+                layeredComponents[component.Layer].Add(component);
+            }
+
+            // Order layers from highest (back) to lowest (front)
+            var layers = layeredComponents.Keys.ToList();
+            layers.Sort();
+            layers.Reverse();
+
+            foreach (var layer in layers)
+            {
+                foreach (var component in layeredComponents[layer])
                 {
                     LvCanvas.Children.Add(component.Img);
                     Canvas.SetTop(component.Img, component.Y);
@@ -82,7 +96,10 @@ namespace FairyLevelEditor
             var selected = viewModel.GetComponentAtPosition(e.GetPosition(LvCanvas));
             if (selected != null)
             {
+                viewModel.SelectedComponent.Img.Opacity = 0.5;
                 viewModel.SelectedComponent = selected;
+                viewModel.SelectedComponent.Img.Opacity = 1;
+
                 viewModel.ComponentDrag = true;
                 lastCell = GetCell(e.GetPosition(LvCanvas));
                 
@@ -181,38 +198,37 @@ namespace FairyLevelEditor
             }
         }
 
-        /// <summary>
-        /// Map from layer to list of components found at that layer
-        /// Layer 0 is nearest layer
-        /// </summary>
-        public Dictionary<int, List<FairyVisualComponent>> Components = new Dictionary<int, List<FairyVisualComponent>>();
+        public List<FairyVisualComponent> Components = new List<FairyVisualComponent>();
 
         public void LoadComponent(string file, double x, double y)
         {
             var cx = (int)(x / CellWidth);
             var cy = (int)(y / CellHeight);
             var visualComponent = new FairyVisualComponent(file, cx, cy, this);
-            if (!Components.ContainsKey(0))
-                Components.Add(0, new List<FairyVisualComponent>());
-            Components[0].Add(visualComponent);
-
+            Components.Add(visualComponent);
             SelectedComponent = visualComponent;
             InvalidateDisplay?.Invoke(this, null);
         }
 
-
         public FairyVisualComponent GetComponentAtPosition(Point position)
         {
-            var keys = Components.Keys.ToList();
-            keys.Sort();
-
-            foreach (int layer in keys)
+            var layeredComponents = new Dictionary<int, List<FairyVisualComponent>>();
+            foreach (var component in Components)
             {
-                foreach (var visualComponent in Components[layer])
+                if (!layeredComponents.ContainsKey(component.Layer))
+                    layeredComponents.Add(component.Layer, new List<FairyVisualComponent>());
+                layeredComponents[component.Layer].Add(component);
+            }
+
+            var layers = layeredComponents.Keys.ToList();
+            layers.Sort();
+            foreach (int layer in layers)
+            {
+                foreach (var visualComponent in layeredComponents[layer])
                 {
                     var width = visualComponent.Img.Width;
                     var height = visualComponent.Img.Height;
-                   
+
                     if (position.X >= visualComponent.X && position.X < visualComponent.X + width
                         && position.Y >= visualComponent.Y && position.Y < visualComponent.Y + height)
                     {
@@ -225,16 +241,12 @@ namespace FairyLevelEditor
 
         public void ReloadComponentsForScreenResize(Rect oldViewport)
         {
-            var keys = Components.Keys.ToList();
-            keys.Sort();
-            foreach (int layer in keys)
+
+            foreach (var visualComponent in Components)
             {
-                foreach (var visualComponent in Components[layer])
-                {
-                    var oldNumCellsX = (int)(visualComponent.Img.Width / oldViewport.Width);
-                    var oldNumCellsY = (int)(visualComponent.Img.Height / oldViewport.Height);
-                    visualComponent.ReloadImageScreenChange(oldNumCellsX, oldNumCellsY);
-                }
+                var oldNumCellsX = (int)(visualComponent.Img.Width / oldViewport.Width);
+                var oldNumCellsY = (int)(visualComponent.Img.Height / oldViewport.Height);
+                visualComponent.ReloadImageScreenChange(oldNumCellsX, oldNumCellsY);
             }
             InvalidateDisplay?.Invoke(this, null);
         }
