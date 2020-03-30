@@ -14,7 +14,9 @@
         </Grid.ColumnDefinitions>
         <Expander Header="Toolbar">
             <StackPanel Orientation="Vertical">
-                <local:FairyComponentDisplay DataContext="{Binding SelectedComponent}"/>
+                <local:FairyComponentDisplay DataContext="{Binding SelectedComponent}" Margin="5, 5, 5, 5"/>
+                <Separator/>
+                <local:PaintInLayer DataContext="{Binding paintInLayerViewModel}" Margin="5, 5, 5, 5"/>
             </StackPanel>
         </Expander>
         <Canvas Grid.Column="1" AllowDrop="True" Name="LvCanvas" 

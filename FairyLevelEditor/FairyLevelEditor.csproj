@@ -71,6 +71,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -96,6 +98,9 @@
     <Compile Include="InverseBooleanConverter.cs" />
     <Compile Include="LevelEditor.xaml.cs">
       <DependentUpon>LevelEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PaintInLayer.xaml.cs">
+      <DependentUpon>PaintInLayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfUtils.cs" />
     <Compile Include="ComponentCreator.xaml.cs">
@@ -129,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LevelEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PaintInLayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

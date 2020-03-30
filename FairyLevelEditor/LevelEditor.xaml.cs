@@ -23,6 +23,7 @@ namespace FairyLevelEditor
         public const int NumCells = 60;
 
         private LevelEditorViewModel viewModel;
+
         public LevelEditor(LevelEditorViewModel vm)
         {
             DataContext = viewModel = vm;
@@ -161,6 +162,8 @@ namespace FairyLevelEditor
 
     public class LevelEditorViewModel : ViewModelBase
     {
+        public PaintInLayerViewModel paintInLayerViewModel { get; } = new PaintInLayerViewModel();
+
         private Rect tileViewport;
         public Rect TileViewport
         {
@@ -208,6 +211,8 @@ namespace FairyLevelEditor
             Components.Add(visualComponent);
             SelectedComponent = visualComponent;
             InvalidateDisplay?.Invoke(this, null);
+
+            paintInLayerViewModel.ComponentCollection.Add(visualComponent.Name);
         }
 
         public FairyVisualComponent GetComponentAtPosition(Point position)
