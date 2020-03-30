@@ -106,8 +106,12 @@ namespace FairyLevelEditor
             if (viewModel.ComponentDrag && (cell.X != lastCell.X || cell.Y != lastCell.Y))
             {
                 // We only trigger an update if the mouse has entered a different square
-                viewModel.SelectedComponent.CellX += (int)cell.X - (int)lastCell.X;
-                viewModel.SelectedComponent.CellY += (int)cell.Y - (int)lastCell.Y;
+                var cx = viewModel.SelectedComponent.CellX + (int)cell.X - (int)lastCell.X;
+                var cy = viewModel.SelectedComponent.CellY + (int)cell.Y - (int)lastCell.Y;
+                viewModel.SelectedComponent.CellX = Math.Min(Math.Max(cx, 0), 
+                    NumCells - viewModel.SelectedComponent.NumCellsX + 1);
+                viewModel.SelectedComponent.CellY = Math.Min(Math.Max(cy, 0),
+                    NumCells - viewModel.SelectedComponent.NumCellsY + 1);
                 lastCell = cell;
             }
         }
@@ -288,7 +292,10 @@ namespace FairyLevelEditor
             }
         }
 
-        private void ReloadImage()
+        public int NumCellsX => (int)(Img.Width / levelEditor.CellWidth) + 1; 
+        public int NumCellsY => (int)(Img.Height / levelEditor.CellHeight) + 1;
+
+        private void ReloadImage() 
         {
             var width = ((int)((origWidth * Scale) / levelEditor.CellWidth) + 1) * levelEditor.CellWidth;
             var height = ((int)((origHeight * Scale) / levelEditor.CellHeight) + 1) * levelEditor.CellHeight;
