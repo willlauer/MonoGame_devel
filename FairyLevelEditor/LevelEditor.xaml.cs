@@ -85,6 +85,7 @@ namespace FairyLevelEditor
                 viewModel.SelectedComponent = selected;
                 viewModel.ComponentDrag = true;
                 lastCell = GetCell(e.GetPosition(LvCanvas));
+                
                 // Windows default is to not capture input if the  mouse is released
                 // after dragging (to avoid inadvertant clicks etc)
                 // So we force the sender object to capture this mouse input
@@ -105,8 +106,8 @@ namespace FairyLevelEditor
             if (viewModel.ComponentDrag && (cell.X != lastCell.X || cell.Y != lastCell.Y))
             {
                 // We only trigger an update if the mouse has entered a different square
-                viewModel.SelectedComponent.CellX = (int)cell.X;
-                viewModel.SelectedComponent.CellY = (int)cell.Y;
+                viewModel.SelectedComponent.CellX += (int)cell.X - (int)lastCell.X;
+                viewModel.SelectedComponent.CellY += (int)cell.Y - (int)lastCell.Y;
                 lastCell = cell;
             }
         }
@@ -189,9 +190,7 @@ namespace FairyLevelEditor
                 Components.Add(0, new List<FairyVisualComponent>());
             Components[0].Add(visualComponent);
 
-            Console.WriteLine("Before");
             SelectedComponent = visualComponent;
-            Console.WriteLine("after");
             InvalidateDisplay?.Invoke(this, null);
         }
 
@@ -201,14 +200,13 @@ namespace FairyLevelEditor
             var keys = Components.Keys.ToList();
             keys.Sort();
 
-            Console.WriteLine("Position = {0}, {1}", position.X, position.Y);
             foreach (int layer in keys)
             {
                 foreach (var visualComponent in Components[layer])
                 {
-                    var width = visualComponent.GetWidth;
-                    var height = visualComponent.GetHeight; 
-
+                    var width = visualComponent.Img.Width;
+                    var height = visualComponent.Img.Height;
+                   
                     if (position.X >= visualComponent.X && position.X < visualComponent.X + width
                         && position.Y >= visualComponent.Y && position.Y < visualComponent.Y + height)
                     {
@@ -238,10 +236,6 @@ namespace FairyLevelEditor
                 InvalidateDisplay?.Invoke(this, null);
             }
         }
-
-        public double GetWidth => ((int)((Img.Width * Scale) / levelEditor.CellWidth) + 1) * levelEditor.CellWidth;
-        public double GetHeight => ((int)((Img.Height * Scale) / levelEditor.CellHeight) + 1) * levelEditor.CellHeight;
-
 
         private int layer;
         public int Layer
@@ -296,14 +290,19 @@ namespace FairyLevelEditor
 
         private void ReloadImage()
         {
+            var width = ((int)((origWidth * Scale) / levelEditor.CellWidth) + 1) * levelEditor.CellWidth;
+            var height = ((int)((origHeight * Scale) / levelEditor.CellHeight) + 1) * levelEditor.CellHeight;
+
             Img = new Image
             {
-                Width = GetWidth,
-                Height = GetHeight,
+                Width = width,
+                Height = height,
                 Source = bitmapImage,
                 Stretch = Stretch.Fill
             };
         }
+        private double origWidth;
+        private double origHeight;
 
         private BitmapImage bitmapImage;
         private EventHandler InvalidateDisplay;
@@ -323,6 +322,10 @@ namespace FairyLevelEditor
                 Height = bitmapImage.Height,
                 Source = bitmapImage
             };
+            
+            origWidth = Img.Width;
+            origHeight = Img.Height;
+
             Scale = 1;
 
             CellX = cx;
