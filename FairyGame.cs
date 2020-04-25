@@ -129,47 +129,47 @@ namespace FairyGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            //GraphicsDevice.Clear(Color.Black);
 
-            Vector2 bluePosition = new Vector2(
-                (float)Math.Cos(blueAngle) * distance,
-                (float)Math.Sin(blueAngle) * distance);
-            Vector2 greenPosition = new Vector2(
-                            (float)Math.Cos(greenAngle) * distance,
-                            (float)Math.Sin(greenAngle) * distance);
-            Vector2 redPosition = new Vector2(
-                            (float)Math.Cos(redAngle) * distance,
-                            (float)Math.Sin(redAngle) * distance);
+            //Vector2 bluePosition = new Vector2(
+            //    (float)Math.Cos(blueAngle) * distance,
+            //    (float)Math.Sin(blueAngle) * distance);
+            //Vector2 greenPosition = new Vector2(
+            //                (float)Math.Cos(greenAngle) * distance,
+            //                (float)Math.Sin(greenAngle) * distance);
+            //Vector2 redPosition = new Vector2(
+            //                (float)Math.Cos(redAngle) * distance,
+            //                (float)Math.Sin(redAngle) * distance);
 
-            Vector2 center = new Vector2(300, 140);
+            //Vector2 center = new Vector2(300, 140);
 
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+            //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
 
-            spriteBatch.Draw(blue, center + bluePosition, Color.White);
-            spriteBatch.Draw(green, center + greenPosition, Color.White);
-            spriteBatch.Draw(red, center + redPosition, Color.White);
-
-            spriteBatch.End();
-            //GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            //// TODO: Add your drawing code here
-
-            //spriteBatch.Begin();
-
-            //spriteBatch.Draw(waterfall, new Rectangle(0, 0, 800, 480), Color.White);
-            //spriteBatch.DrawString(headerFont, "waterfall", new Vector2(10, 10), Color.White);
-
-            //var arrowLocation = new Vector2(400, 240);
-            //var sourceRectangle = new Rectangle(0, 0, arrow.Width, arrow.Height);
-            //var origin = new Vector2(arrow.Width / 2, 0);
-            //spriteBatch.Draw(arrow, arrowLocation, sourceRectangle, Color.White, angle, origin, 1.0f, SpriteEffects.None, 1);
+            //spriteBatch.Draw(blue, center + bluePosition, Color.White);
+            //spriteBatch.Draw(green, center + greenPosition, Color.White);
+            //spriteBatch.Draw(red, center + redPosition, Color.White);
 
             //spriteBatch.End();
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            //sprite.Draw(spriteBatch, new Vector2(400, 200));
+            // TODO: Add your drawing code here
 
-            //base.Draw(gameTime);
+            spriteBatch.Begin();
+
+            spriteBatch.Draw(waterfall, new Rectangle(0, 0, 800, 480), Color.White);
+            spriteBatch.DrawString(headerFont, "waterfall", new Vector2(10, 10), Color.White);
+
+            var arrowLocation = new Vector2(400, 240);
+            var sourceRectangle = new Rectangle(0, 0, arrow.Width, arrow.Height);
+            var origin = new Vector2(arrow.Width / 2, 0);
+            spriteBatch.Draw(arrow, arrowLocation, sourceRectangle, Color.White, angle, origin, 1.0f, SpriteEffects.None, 1);
+
+            spriteBatch.End();
+
+            sprite.Draw(spriteBatch, new Vector2(400, 200));
+
+            base.Draw(gameTime);
         }
     }
 }

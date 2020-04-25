@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace FairyGameFramework
 {
     /// <summary>
     /// Actor
+    /// This is the base class for all fairy components that represent
+    /// characters or essentially anything that isn't an inanimate object
     /// </summary>
     public class FairyActor : FairyComponent
     {
@@ -33,5 +33,6 @@ namespace FairyGameFramework
             : base(sprite, name, ComponentTypes.Actor, numRows, numColumns, numFrames)
         {
         }
+    
     }
 }

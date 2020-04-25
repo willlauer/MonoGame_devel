@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D9;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,20 +18,12 @@ namespace FairyGameFramework
     /// </summary>
     public class FairyComponent
     {
+        /// <summary>
+        /// The folder where all saved components are stored
+        /// </summary>
         public static string ComponentRepository = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             "fairy_components");
-
-        public string Sprite;  // sprite filepath
-        public string Name;
-        public ComponentTypes ComponentType;
-
-        #region if texture atlas
-        public bool IsTextureAtlas;
-        public int NumRows;
-        public int NumColumns;
-        public int NumFrames;
-        #endregion
 
         /// <summary>
         /// Constructor for single-frame component
@@ -65,6 +61,10 @@ namespace FairyGameFramework
             IsTextureAtlas = true;
         }
 
+        /// <summary>
+        /// Save the fairy component to file
+        /// </summary>
+        /// <param name="filename"></param>
         public void Save(string filename)
         {
             Directory.CreateDirectory(ComponentRepository);
@@ -176,6 +176,76 @@ namespace FairyGameFramework
                 }
             }
         }
+
+        /// <summary>
+        /// Draw the sprite with the provided graphics device
+        /// </summary>
+        /// <param name="graphicsDevice"></param>
+        public void Render(ref GraphicsDevice graphicsDevice)
+        {
+            if (!Initialized_)
+            {
+                throw new Exception("Component cannot be rendered: not initialized");
+            }
+            var spriteBatch = new SpriteBatch(graphicsDevice);
+            spriteBatch.Begin();
+            spriteBatch.Draw(texture, position, Color.White);
+            spriteBatch.End();
+        }
+
+        /// <summary>
+        /// Should be called with reference to content manager to
+        /// actually load the texture
+        /// </summary>
+        /// <param name="content"></param>
+        public void Initialize(ref ContentManager content)
+        {
+            texture = content.Load<Texture2D>(Sprite);
+            Initialized_ = true;
+        }
+
+        #region status
+        /// <summary>
+        /// Set by call to Initialize()
+        /// </summary>
+        protected bool Initialized_ = false;
+        #endregion
+
+        #region Component Properties
+        /// <summary>
+        /// The velocity of the component
+        /// </summary>
+        protected Vector2 velocity;
+
+        /// <summary>
+        /// The position of the component
+        /// </summary>
+        protected Vector2 position;
+        #endregion
+
+        /// <summary>
+        /// The filepath to the image used for this component
+        /// </summary>
+        public string Sprite; 
+
+        /// <summary>
+        /// The identifier for this component type
+        /// </summary>
+        public string Name;
+
+        /// <summary>
+        /// Set by super-class constructor, for generic access
+        /// </summary>
+        public ComponentTypes ComponentType;
+
+        protected Texture2D texture;
+
+        #region if texture atlas
+        public bool IsTextureAtlas;
+        public int NumRows;
+        public int NumColumns;
+        public int NumFrames;
+        #endregion
     }
 
 }
