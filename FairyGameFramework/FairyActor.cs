@@ -33,6 +33,13 @@ namespace FairyGameFramework
             : base(sprite, name, ComponentTypes.Actor, numRows, numColumns, numFrames)
         {
         }
-    
+
+        /// <summary>
+        /// Actor update method
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public override void Update(GameTime gameTime)
+        {
+        }
     }
 }

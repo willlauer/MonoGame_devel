@@ -181,7 +181,7 @@ namespace FairyGameFramework
         /// Draw the sprite with the provided graphics device
         /// </summary>
         /// <param name="graphicsDevice"></param>
-        public void Render(ref GraphicsDevice graphicsDevice)
+        public void Render(GraphicsDevice graphicsDevice)
         {
             if (!Initialized_)
             {
@@ -198,7 +198,7 @@ namespace FairyGameFramework
         /// actually load the texture
         /// </summary>
         /// <param name="content"></param>
-        public void Initialize(ref ContentManager content)
+        public void Initialize(ContentManager content)
         {
             texture = content.Load<Texture2D>(Sprite);
             Initialized_ = true;
@@ -246,6 +246,18 @@ namespace FairyGameFramework
         public int NumColumns;
         public int NumFrames;
         #endregion
+    
+    
+        /// <summary>
+        /// Component update
+        /// Overridden by actor, object
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public virtual void Update(GameTime gameTime)
+        {
+            throw new Exception("No implementation for base class update function.\n" +
+                "Should be called on either actor or object");
+        }
     }
 
 }

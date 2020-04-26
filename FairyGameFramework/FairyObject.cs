@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,14 @@ namespace FairyGameFramework
         /// <param name="numFrames">Number of frames in texture atlas</param>
         public FairyObject(string sprite, string name, int numRows, int numColumns, int numFrames) 
             : base(sprite, name, ComponentTypes.Object, numRows, numColumns, numFrames)
+        {
+        }
+
+        /// <summary>
+        /// Object update method
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public override void Update(GameTime gameTime)
         {
         }
     }

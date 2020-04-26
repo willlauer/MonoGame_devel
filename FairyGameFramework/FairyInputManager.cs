@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System;
+using System.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 namespace FairyGameFramework
 {
     /// <summary>
@@ -6,8 +9,8 @@ namespace FairyGameFramework
     /// </summary>
     public static class FairyInputManager
     {
-        public const int RIGHT = -1;
-        public const int LEFT = 1;
+        public const int RIGHT = 1;
+        public const int LEFT = -1;
         public const int UP = -1;
         public const int DOWN = 1;
         public const int NONE = 0;
@@ -22,7 +25,11 @@ namespace FairyGameFramework
         /// </summary>
         public static int V { get; private set; }
 
-        public static void Update()
+        /// <summary>
+        /// Update input
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public static void Update(GameTime gameTime)
         {
             var state = Keyboard.GetState();
 
@@ -38,6 +45,11 @@ namespace FairyGameFramework
             if (up) V += UP;
             if (down) V += DOWN;
             #endregion
+        }
+
+        public static void PrintState()
+        {
+            Console.WriteLine("H: {0}\nV: {1}\n", H, V);
         }
     }
 }
