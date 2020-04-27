@@ -189,7 +189,7 @@ namespace FairyGameFramework
             }
             var spriteBatch = new SpriteBatch(graphicsDevice);
             spriteBatch.Begin();
-            spriteBatch.Draw(texture, position, Color.White);
+            spriteBatch.Draw(Texture, position, Color.White);
             spriteBatch.End();
         }
 
@@ -200,7 +200,7 @@ namespace FairyGameFramework
         /// <param name="content"></param>
         public void Initialize(ContentManager content)
         {
-            texture = content.Load<Texture2D>(Sprite);
+            Texture = content.Load<Texture2D>(Sprite);
             Initialized_ = true;
         }
 
@@ -215,30 +215,30 @@ namespace FairyGameFramework
         /// <summary>
         /// The velocity of the component
         /// </summary>
-        protected Vector2 velocity;
+        public Vector2 velocity { get; protected set; }
 
         /// <summary>
         /// The position of the component
         /// </summary>
-        protected Vector2 position;
+        public Vector2 position { get; protected set; }
         #endregion
 
-        /// <summary>
+        /// <summary>s
         /// The filepath to the image used for this component
         /// </summary>
-        public string Sprite; 
+        public string Sprite { get; protected set; } 
 
         /// <summary>
         /// The identifier for this component type
         /// </summary>
-        public string Name;
+        public string Name { get; protected set; }
 
         /// <summary>
         /// Set by super-class constructor, for generic access
         /// </summary>
-        public ComponentTypes ComponentType;
+        public ComponentTypes ComponentType { get; protected set; }
 
-        protected Texture2D texture;
+        public Texture2D Texture { get; protected set; }
 
         #region if texture atlas
         public bool IsTextureAtlas;
